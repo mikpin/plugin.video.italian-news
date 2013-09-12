@@ -8,11 +8,11 @@ _icons = _resdir + "/icons/"
 sys.path.append( xbmc.translatePath(_resdir + "/lib/"))
 import rai
 
-tg1icona=xbmc.translatePath(_icons +"tg1.jpg")
+_tg1Icon=xbmc.translatePath(_icons +"tg1.jpg")
 
 
-def _addItem(label,uri):
-    item = xbmcgui.ListItem(label, iconImage=tg1icona)
+def _addItem(label,uri,icon):
+    item = xbmcgui.ListItem(label, iconImage=icon)
     xbmcplugin.addDirectoryItem(_thisPlugin,uri,item)
 
 def _get_params():
@@ -33,7 +33,7 @@ def _get_params():
     return param
 
 tg1 = rai.RaiUno().get()
-print tg1
+print param
 for (name,url,icon) in tg1:
-    _addItem(name,url)
+    _addItem(name,url,icon)
 xbmcplugin.endOfDirectory(_thisPlugin)
