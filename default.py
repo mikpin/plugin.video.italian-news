@@ -8,8 +8,9 @@ _icons = _resdir + "/icons/"
 sys.path.append( xbmc.translatePath(_resdir + "/lib/"))
 import rai
 
-_tg1Icon=xbmc.translatePath(_icons +"tg1.jpg")
-
+_tg1Icon=xbmc.translatePath(_icons +"Tg1_logo.png")
+_tg2Icon=xbmc.translatePath(_icons +"Tg2_logo.png")
+_tg3Icon=xbmc.translatePath(_icons +"Tg3_logo.png")
 
 def _addItem(label,uri,icon,isFolder=False):
     item = xbmcgui.ListItem(label, iconImage=icon)
@@ -34,17 +35,22 @@ def _get_params():
 
 param = _get_params()
 plugins = {
-    '1':(rai.RaiUno, 'Guarda il TG1',_tg1Icon)
+    '1':(rai.RaiUno, 'Guarda il TG1',_tg1Icon),
+    '2':(rai.RaiDue, 'Guarda il TG2',_tg2Icon),
+    '3':(rai.RaiTre, 'Guarda il TG3',_tg3Icon)
     }
 
 if 'plugin' in param:
-    (engine, title, icon)=plugins[param['plugin']]
+    (engine, title, eicon)=plugins[param['plugin']]
     for (name,url,icon) in engine().get():
+        if icon == '':
+            icon = eicon
         _addItem(name,url,icon)
     xbmcplugin.endOfDirectory(_thisPlugin)
 else:
-    for n in plugins:
+    for n in sorted(plugins.iterkeys()):
         (engine, title, icon)=plugins[n]
+        print title
         _addItem(title,sys.argv[0]+'?plugin='+n,icon,isFolder=True)
     xbmcplugin.endOfDirectory(_thisPlugin)
     
